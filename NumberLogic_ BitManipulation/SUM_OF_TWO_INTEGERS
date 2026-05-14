@@ -1,0 +1,161 @@
+/*
+LEETCODE 371 - SUM OF TWO INTEGERS
+Given two integers a and b, return the sum of
+the two integers without using the operators
+'+' and '-'.
+Example:
+Input: a = 1, b = 2
+Output: 3
+---------------------------------------------------
+BRUTE FORCE APPROACH
+Time Complexity: O(|b|)
+Space Complexity: O(1)
+Idea:
+- If b is positive:
+    increment a and decrement b
+- If b is negative:
+    decrement a and increment b
+- Continue until b becomes 0
+---------------------------------------------------
+*/
+class BruteForceSolution {
+    public int getSum(int a, int b) {
+        while (b != 0) {
+            if (b > 0) {
+                a++;
+                b--;
+            }
+            else {
+                a--;
+                b++;
+            }
+        }
+        return a;
+    }
+}
+/*
+---------------------------------------------------
+OPTIMAL APPROACH - Bit Manipulation
+Time Complexity: O(1)
+Space Complexity: O(1)
+Idea:
+- XOR gives sum without carry
+- AND gives carry bits
+- Shift carry left by 1
+- Repeat until carry becomes 0
+Formula:
+sum = a ^ b
+carry = (a & b) << 1
+---------------------------------------------------
+*/
+class OptimalSolution {
+    public int getSum(int a, int b) {
+        while (b != 0) {
+            int sum = a ^ b;
+            int carry = (a & b) << 1;
+            a = sum;
+            b = carry;
+        }
+        return a;
+    }
+}
+// DRY RUN CODE
+/*
+Input:
+a = 5
+b = 3
+Binary:
+5 = 0101
+3 = 0011
+------------------------------------------------
+Iteration 1
+sum = a ^ b
+    0101
+^   0011
+--------------
+    0110
+sum = 6
+------------------------------------------------
+carry = (a & b) << 1
+    0101
+&   0011
+--------------
+    0001
+Left Shift:
+0001 << 1 = 0010
+carry = 2
+------------------------------------------------
+Update:
+a = sum   = 6
+b = carry = 2
+------------------------------------------------
+Iteration 2
+a = 6 = 0110
+b = 2 = 0010
+sum = a ^ b
+    0110
+^   0010
+--------------
+    0100
+sum = 4
+------------------------------------------------
+carry = (a & b) << 1
+    0110
+&   0010
+--------------
+    0010
+Left Shift:
+0010 << 1 = 0100
+carry = 4
+------------------------------------------------
+Update:
+a = 4
+b = 4
+------------------------------------------------
+Iteration 3
+a = 4 = 0100
+b = 4 = 0100
+sum = a ^ b
+    0100
+^   0100
+--------------
+0000
+sum = 0
+------------------------------------------------
+carry = (a & b) << 1
+    0100
+&   0100
+--------------
+    0100
+Left Shift:
+0100 << 1 = 1000
+carry = 8
+------------------------------------------------
+Update:
+a = 0
+b = 8
+------------------------------------------------
+Iteration 4
+a = 0
+b = 8
+sum = a ^ b
+    0000
+^   1000
+--------------
+    1000
+sum = 8
+------------------------------------------------
+carry = (a & b) << 1
+    0000
+&   1000
+--------------
+    0000
+carry = 0
+------------------------------------------------
+Loop Ends
+Final Answer:
+a = 8
+------------------------------------------------
+Final Output:
+8
+*/
