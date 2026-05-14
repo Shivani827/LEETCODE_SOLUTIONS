@@ -94,13 +94,10 @@ Why?
 */
 
 class optimalSolution {
-
     public boolean isPalindrome(int x) {
-
         // Negative numbers are not palindrome
         // Numbers ending with 0 are not palindrome
         // except 0 itself
-
         if (x < 0 || (x % 10 == 0 && x != 0)) {
             return false;
         }
